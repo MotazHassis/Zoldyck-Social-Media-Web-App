@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>change your avatar</title>
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
+    <!-- main style -->
+</head>
+<body>
+    <div class="modal-body">
+        <form action="/update_avatar" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <!-- disclaimer -->
+            <div>
+                <span class="text-muted fs-7">Please, uploaded photo size should be less than 2 MB</span>
+            </div>
+            <div class="mb-3">
+                <label for="img" class="from-label">PIC</label>
+                <input type="file" class="form-control" id="img" name="avatar"> 
+            </div>
+            <!-- btn -->
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success btn-lg" data-bs-dismiss="modal">Update</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

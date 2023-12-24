@@ -1,0 +1,739 @@
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- fontawesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <!-- bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+        crossorigin="anonymous"
+    />
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- main style -->
+    
+    <title>Flexbook</title>
+    </head>
+    <body class="bg-gray postion-relative">
+      {% load humanize %}
+        <div>
+            <div
+            class="bg-white d-flex align-items-center fixed-top shadow"
+            style="min-height: 56px; z-index: 5"
+            >
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                    <!-- search -->
+                        <div class="col d-flex align-items-center">
+                    <!-- logo -->
+                    <a href="/FLEXBOOK">
+                    <img
+                    src="{% static 'Zoldyck.png' %}"
+                    alt="avatar"
+                    class="rounded-circle me-2"
+                    style="width: 35px; height: 35px; object-fit: cover"
+                  /></a>
+                            <!-- search bar -->
+                        </div>
+          <!-- nav -->
+          <div class="col d-none d-xl-flex justify-content-center">
+            <!-- home -->
+            <div class="mx-4 nav__btn nav__btn-active">
+                <a href="/FLEXBOOK">
+              <button type="button" class="btn px-4">
+                <i class="fas fa-home text-muted fs-4"></i>
+              </button>
+            </a>
+            </div>
+            <!-- group -->
+            
+            <div class="mx-4 nav__btn"
+              type="button"
+              id="groupuser"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <button type="button" class="btn px-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-users text-muted fs-4"
+                >
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >{% for allreq in allrequests %}
+                    {{allreq.user_request.all|length}}
+                    {% endfor %}
+                    <span class="visually-hidden"></span>
+                  </span>
+                </i>
+              </button>
+              
+            </div>
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="groupuser"
+              style="width: 23em; max-height: 600px"
+            >
+            <!-- friend requests -->
+            {% for allreq in allrequests %}
+            {% for req in allreq.user_request.all %}
+            <li class="my-2 p-1">
+              <a
+                href="#"
+                class="
+                  d-flex
+                  align-items-center
+                  justify-content-evenly
+                  text-decoration-none text-dark
+                "
+              >
+                <div class="d-flex align-items-center justify-content-evenly">
+                  <div class="p-2">
+                    <img
+                      src="{{req.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle"
+                      style="width: 58px; height: 58px; object-fit: cover"
+                    />
+                  </div>
+                  <div>
+                    <p class="fs-7 m-0">
+                      {{req.first}}
+                    </p>
+                    <span class="fs-7 text-primary">Sent you friend request</span><br>
+                    <span class="d-lg-block position-relative text-muted small">{{req.updated_at|naturaltime}}</span>
+                  </div>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="/accept/{{req.id}}" role="button">accept</a>
+                  </div>
+                </div>
+                <i class="fas fa-circle fs-7 text-primary"></i>
+              </a>
+            </li>
+            {% endfor %}
+            {% endfor %}
+            <!-- end friend requests -->
+            </ul>
+          </div>
+          
+          <!-- menus -->
+          <div class="col d-flex align-items-center justify-content-end">
+            <!-- avatar -->
+            <div
+              class="align-items-center justify-content-center d-none d-xl-flex"
+            >
+              <img
+                src="{{sender.avatar.url}}"
+                class="rounded-circle me-2"
+                alt="avatar"
+                style="width: 38px; height: 38px; object-fit: cover"
+              />
+              <p class="m-0">{{sender.first}}</p>
+            </div>
+            <!-- main menu -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="mainMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <!-- main menu dd -->
+            <ul
+              class="notifications_ajax dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="mainMenu"
+              style="width: 23em; max-height: 600px"
+            >
+              <!-- menu -->
+              <div>
+                <!-- header -->
+                <li class="p-1 mx-2">
+                  <h2>Menu</h2>
+                </li>
+                <!-- search -->
+                <li class="p-1">
+                  <div
+                    class="input-group-text bg-gray border-0 rounded-pill"
+                    style="min-height: 40px; min-width: 230px"
+                  >
+                    <i class="fas fa-search me-2 text-muted"></i>
+                    <input
+                      type="text"
+                      class="form-control rounded-pill border-0 bg-gray"
+                      placeholder="Search Menu"
+                    />
+                  </div>
+                </li>
+                <li class="my-2 p-1">
+                  <a
+                    href="/change_avatar"
+                    class="
+                      text-decoration-none text-dark
+                      d-flex
+                      align-items-center
+                    "
+                  >
+                    <div
+                      class="
+                        rounded-circle
+                        bg-gray
+                        p-1
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        me-3
+                      "
+                      style="width: 38px; height: 38px"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </div>
+                    <div>
+                      <p class="m-0">Change your avatar</p>
+                    </div>
+                  </a>
+                </li>
+              </div>
+            </ul>
+            <!-- chat -->
+            <section class="notifications_ajax">
+            <div class="mx-4 nav__btn"
+              type="button"
+              id="groupuser"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <button type="button" class="btn px-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >{% for note in allnote %}
+                    {{note.sender.all|length}}
+                    {% endfor %}
+                    <span class="visually-hidden"></span>
+                  </span>
+                  
+                </i>
+              </button>
+            </div>
+            
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="groupuser"
+              style="width: 23em; max-height: 600px"
+            >
+            <!-- friend requests -->
+            {% for note in allnote %}
+            {% for no in note.sender.all %}
+            <li class="my-2 p-1">
+              <a
+                href="#"
+                class="
+                  d-flex
+                  align-items-center
+                  justify-content-evenly
+                  text-decoration-none text-dark
+                "
+              >
+                <div class="d-flex align-items-center justify-content-evenly">
+                  <div class="p-2">
+                    <img
+                      src="{{no.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle"
+                      style="width: 58px; height: 58px; object-fit: cover"
+                    />
+                  </div>
+                  <div>
+                    <p class="fs-7 m-0">
+                      {{no.first}}
+                    </p>
+                    <span class="fs-7 text-primary">Sent message to you</span><br>
+                    <span class="text-muted fs-7">{{note.updated_at|naturaltime}}</span>
+                  </div>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="/message/{{no.id}}" role="button">View Message</a>
+                  </div>
+                </div>
+                <i class="fas fa-circle fs-7 text-primary"></i>
+              </a>
+            </li>
+            {% endfor %}
+            {% endfor %}
+
+          <!-- </section> -->
+            {% for friend in allfriends %}
+              {% for all in friend.friends.all %}
+              <a
+              class="
+                dropdown-item
+                d-flex
+                justify-content-around
+                align-items-center
+                fs-7
+              "
+              href="/message/{{all.id}}"
+                >
+              <li
+                class="dropdown-item rounded my-2 px-0"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#singleChat{{all.id}}"
+              >
+                <!-- avatar -->
+                <div
+                  class="d-flex align-items-center mx-2 chat-avatar"
+                  data-bs-custom-class="chat-box"
+                  data-bs-container="body"
+                  data-bs-toggle="popover"
+                  data-bs-placement="left"
+                  data-bs-trigger="hover"
+                  data-bs-content='
+                    <div>
+                      <div class="popover-body d-flex p-2">
+                        <div>
+                          <img src="{{all.avatar.url}}" alt="avatar" class="pop-avatar"  />
+                        </div>
+                        <div >
+                          <h5>{{all.first}}</h5>
+                          <div class="d-flex">
+                            <i class="fas fa-user-friends m-1 text-muted"></i>
+                            <p>2 mutual friends: <span class="fw-bold">Jerry</span> and <span class="fw-bold">Phu</span></p>
+                          </div>
+                          <div class="d-flex">
+                          <i class="fas fa-graduation-cap m-1 text-muted"></i>
+                          <p>Studies at MIT</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  '
+                  data-bs-html="true"
+                >
+                  <div class="position-relative">
+                    <img
+                      src="{{all.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle me-2"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                    />
+                    <span
+                      class="
+                        position-absolute
+                        bottom-0
+                        translate-middle
+                        border border-light
+                        rounded-circle
+                        bg-success
+                        p-1
+                      "
+                      style="left: 75%"
+                    >
+                      <span class="visually-hidden"></span>
+                    </span>
+                  </div>
+                  <p class="m-0">{{all.first}}</p>
+                
+                </div>
+              
+              </li>
+              <div class="mx-4 nav__btn mr-4"
+              id="groupuser"
+            >
+              <button type="button" class="btn mr-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >{% for mnote in allnote %}
+                  {% for mnote1 in mnote.sender.all %}
+                  {% if all.id == mnote1.id %}
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >
+                    1
+                    <span class="visually-hidden"></span>
+                  </span>
+                  {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </i>
+              </button>
+              
+            </div>
+            </a>
+              {% endfor %}
+              {% endfor %}
+            <!-- end friend requests -->
+            </ul>
+            </section>
+          
+            <!-- chat  dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="chatMenu"
+              style="width: 23em; max-height: 600px"
+            >
+              <li class="p-1">
+                <div
+                  class="input-group-text bg-gray border-0 rounded-pill"
+                  style="min-height: 40px; min-width: 230px"
+                >
+                  <i class="fas fa-search me-2 text-muted"></i>
+                  <input
+                    type="text"
+                    class="form-control rounded-pill border-0 bg-gray"
+                    placeholder="Search Messenger"
+                  />
+                </div>
+              </li>
+            </ul>
+            <!-- notifications -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="notMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-bell"></i>
+            </div>
+            <!-- notifications dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3"
+              aria-labelledby="notMenu"
+              style="width: 23em; max-height: 600px; overflow-y: auto"
+            >
+              <!-- header -->
+              <li class="p-1">
+                <div class="d-flex justify-content-between">
+                  <h2>Notifications</h2>
+                  <div>
+                    <i
+                      class="
+                        fas
+                        fa-ellipsis-h
+                        pointer
+                        p-2
+                        rounded-circle
+                        bg-gray
+                      "
+                      type="button"
+                      data-bs-toggle="dropdown"
+                    ></i>
+                    <ul class="dropdown-menu">
+                      <li
+                        class="dropdown-item d-flex align-items-center"
+                        type="button"
+                      >
+                        <i class="fas fa-check me-3 text-muted"></i>
+                        <p class="m-0">Mark all as read</p>
+                      </li>
+                      <li
+                        class="dropdown-item d-flex align-items-center"
+                        type="button"
+                      >
+                        <i class="fas fa-cog me-3 text-muted"></i>
+                        <p class="m-0">Privacy Checkup</p>
+                      </li>
+                      <li
+                        class="dropdown-item d-flex align-items-center"
+                        type="button"
+                      >
+                        <i class="fas fa-desktop me-3 text-muted"></i>
+                        <p class="m-0">Privacy Shortcuts</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="d-flex" type="button">
+                  <p class="rounded-pill bg-gray p-2">All</p>
+                  <p class="ms-3 rounded-pill bg-primary p-2 text-white">
+                    Unread
+                  </p>
+                </div>
+              </li>
+              <!-- news -->
+              <div class="d-flex justify-content-between mx-2">
+                <h5>New</h5>
+                <a href="#" class="text-decoration-none">See All</a>
+              </div>
+              <!-- news 1 -->
+              <li class="my-2 p-1">
+                <a
+                  href="#"
+                  class="
+                    d-flex
+                    align-items-center
+                    justify-content-evenly
+                    text-decoration-none text-dark
+                  "
+                >
+                  <div class="d-flex align-items-center justify-content-evenly">
+                    <div class="p-2">
+                      <img
+                        src="https://source.unsplash.com/random/1"
+                        alt="avatar"
+                        class="rounded-circle"
+                        style="width: 58px; height: 58px; object-fit: cover"
+                      />
+                    </div>
+                    <div>
+                      <p class="fs-7 m-0">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Harum unde amet at nulla quae porro.
+                      </p>
+                      <span class="fs-7 text-primary">about an hour ago</span>
+                    </div>
+                  </div>
+                  <i class="fas fa-circle fs-7 text-primary"></i>
+                </a>
+              </li>
+            </ul>
+            <!-- secondary menu -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="secondMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-caret-down"></i>
+            </div>
+            <!-- secondary menu dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3"
+              aria-labelledby="secondMenu"
+              style="width: 23em"
+            >
+            <!-- avatar -->
+            <li class="dropdown-item p-1 rounded d-flex" type="button">
+                <img
+                src="{{sender.avatar.url}}"
+                alt="avatar"
+                class="rounded-circle me-2"
+                style="width: 45px; height: 45px; object-fit: cover"
+                />
+                <div>
+                <p class="m-0">{{sender.first}}</p>
+                <p class="m-0 text-muted">See your profile</p>
+                </div>
+            </li>
+            <hr />
+            <!-- feedback -->
+            <hr />
+            <!-- options -->
+            <!-- 4 -->
+            <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                </li>
+                <li class="d-flex align-items-center">
+                <a
+                    class="
+                    dropdown-item
+                    d-flex
+                    justify-content-around
+                    align-items-center
+                    fs-7
+                    "
+                    href="/logout"
+                    >
+                    LOG OUT</a
+                    >
+                </li>
+                </ul>
+                </li>
+            </ul>
+            <!-- end -->
+        </div>
+        </div>
+    </div>
+    </div>
+    <!-- =============== New Chat Mobile =============== -->
+
+        <div
+        class="modal-dialog mt-5 pt-5"
+        >
+            <div class="modal-content border-0 shadow mt-5">
+                <!-- head -->
+                <div class="modal-header">
+                <div
+                class="d-flex rounded"
+                type="button"
+                data-bs-container="body"
+                data-bs-toggle="popover"
+                data-bs-placement="left"
+                >
+                <!-- avatar -->
+                <div class="position-relative">
+                <img
+                    src="{{reciver.avatar.url}}"
+                    alt="avatar"
+                    class="rounded-circle me-2"
+                    style="width: 38px; height: 38px; object-fit: cover"
+                />
+                <span
+                    class="
+                    position-absolute
+                    bottom-0
+                    translate-middle
+                    p-1
+                    bg-success
+                    border border-light
+                    rounded-circle
+                    "
+                    style="left: 75%"
+                >
+                </span>
+                </div>
+                <!-- name -->
+                <div>
+                <p class="m-0">{{reciver.first}}<i class="fas fa-angle-down"></i></p>
+                <span class="text-muted fs-7">Active Now</span>
+                </div>
+            </div>
+            </div>
+            <!-- body -->
+            <div id="textarea_id" class="modal-body p-0 overflow-auto" style="max-height: 300px">
+            <!-- message l -->
+            {% for message_se in message_content_sender %}
+            
+            
+            <li class="list-group-item justify-content-between  border-0 d-flex">
+                <!-- avatar user -->
+                <div class="d-flex">
+                <img
+                    src="{{sender.avatar.url}}"
+                    alt="avatar"
+                    class="rounded-circle me-2"
+                    style="width: 28px; height: 28px; object-fit: cover"
+                />
+                <p class="bg-gray p-2 rounded mark" style="background-color: #ced4da;max-width: 18rem;">{{message_se.content}}</p> 
+                </div>
+                <p class="sm-gray mr-1  rounded small" style="width:6rem">{{message_se.updated_at|naturaltime}}</p>
+                
+                
+                <!-- message -->
+                
+            </li>
+            {% endfor %}
+            <!-- ------------ -->
+            </div>
+            <!-- message input -->
+            <div class="modal-footer p-0 m-0 border-0">
+            <form action="/sendmessage/{{reciver.id}}" method="POST">
+                {% csrf_token %}
+            <div class="d-flex">
+                <div class="d-flex align-items-center">
+                </div>
+                <div>
+                <input
+                    type="text"
+                    class="form-control rounded-pill border-0 bg-gray"
+                    name="message_content"
+                    placeholder="Aa"
+                />
+                </div>
+                <div class="d-flex align-items-center mx-2">
+                <button type="submit" class="btn btn-primary btn-sm">Send</button>
+                </div>
+            </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- -------------- -->
+    
+            <!-- body -->
+            <div class="modal-body p-0 overflow-auto" style="max-height: 300px">
+            <!-- message l -->
+            
+            <!-- ------------ -->
+            </div>
+        </div>
+    </div>
+
+        
+    </body>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"
+
+        ></script>
+        <script src="{% static 'message.js' %}"></script>
+    </html>
+    

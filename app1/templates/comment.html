@@ -1,0 +1,61 @@
+{% load humanize %}
+{% for comment in post.post_comments.all %}
+                          <div class="d-flex align-items-center my-1">
+                            <!-- avatar -->
+                            <img
+                              src="{{comment.commented_by.avatar.url}}"
+                              alt="avatar"
+                              class="rounded-circle me-2"
+                              style="
+                                width: 38px;
+                                height: 38px;
+                                object-fit: cover;
+                              "
+                            />
+                            <!-- comment text -->
+                            <div class="p-3 rounded comment__input w-100">
+                              <!-- comment menu of author -->
+                              {% if user.id == comment.commented_by.id %}
+                              <div class="d-flex justify-content-end">
+                                <!-- icon -->
+                                <i
+                                  class="fas fa-ellipsis-h text-blue pointer"
+                                  id="post1CommentMenuButton"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                ></i>
+                                <!-- menu -->
+                                
+                                <ul
+                                  class="dropdown-menu border-0 shadow"
+                                  aria-labelledby="post1CommentMenuButton"
+                                >
+                                  
+                                  <li class="d-flex align-items-center">
+                                    <a
+                                      class="
+                                        dropdown-item
+                                        d-flex
+                                        justify-content-around
+                                        align-items-center
+                                        fs-7
+                                      "
+                                      href="/delete_comment/{{comment.id}}"
+                                    >
+                                      Delete Comment</a
+                                    >
+                                  </li>
+                                  
+                                </ul>
+                              </div>
+                              {% endif %}
+                              <p class="fw-bold m-0">{{comment.commented_by.first}}</p>
+                              <p class="m-0 fs-7 bg-gray p-2 rounded">
+                                {{comment.desc}}
+                              </p>
+                            <span class="text-muted fs-7">{{comment.updated_at|naturaltime}}</span>
+                            </div>
+                          </div>
+                        
+                          {% endfor %}
+  

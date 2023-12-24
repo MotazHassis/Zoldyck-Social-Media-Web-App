@@ -1,0 +1,2729 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+    {% load static %}
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <!-- main style -->
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <title>Zoldyck</title>
+  </head>
+  <body class="bg-gray postion-relative">
+    {% load humanize %}
+    <div id="modal01" class="w3-modal" onclick="this.style.display='none' ">
+      <span class="w3-button w3-hover-red w3-xlarge w3-display-topright">&times;</span>
+      <div style="z-index:3; background-color: transparent;" class="text-center w3-modal-content w3-animate-zoom">
+        <img class="rounded mx-auto d-block img-fluid img-thumbnail" id="img01" style="width:60%">
+      </div>
+    </div>
+    <!-- ================= Appbar ================= -->
+    <div
+      class="bg-white d-flex align-items-center fixed-top shadow"
+      style="min-height: 56px; z-index: 2"
+    >
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <!-- search -->
+          <div class="col d-flex align-items-center">
+            <!-- logo -->
+            <img
+                        src="{% static 'Zoldyck.png' %}"
+                        alt="avatar"
+                        class="rounded-circle me-2"
+                        style="width: 35px; height: 35px; object-fit: cover"
+                      />
+            <!-- search bar -->
+            <div class="input-group ms-2" type="button">
+              <!-- mobile -->
+              <!-- <span
+                class="input-group-prepend d-lg-none"
+                id="searchMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-auto-close="outside"
+              >
+                <div
+                  class="input-group-text bg-gray border-0 rounded-circle"
+                  style="min-height: 40px"
+                >
+                  <i class="fas fa-search text-muted"></i>
+                </div>
+              </span> -->
+              <!-- desktop -->
+              <!-- <span
+                class="input-group-prepend d-none d-lg-block"
+                id="searchMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-auto-close="outside"
+              >
+                <div
+                  class="input-group-text bg-gray border-0 rounded-pill"
+                  style="min-height: 40px; min-width: 230px"
+                >
+                  <i class="fas fa-search me-2 text-muted"></i>
+                  <p class="m-0 fs-7 text-muted">Search Zoldyck</p>
+                </div>
+              </span> -->
+              <!-- search menu -->
+              <!-- <ul
+                class="dropdown-menu overflow-auto border-0 shadow p-3"
+                aria-labelledby="searchMenu"
+                style="width: 20em; max-height: 600px"
+              > -->
+                <!-- search input -->
+                <!-- <li>
+                  <input
+                    type="text"
+                    class="rounded-pill border-0 bg-gray dropdown-item"
+                    placeholder="Search Zoldyck..."
+                    autofocus
+                  />
+                </li> -->
+                <!-- search 1 -->
+                <!-- <li class="my-4">
+                  <div
+                    class="
+                      alert
+                      fade
+                      show
+                      dropdown-item
+                      p-1
+                      m-0
+                      d-flex
+                      align-items-center
+                      justify-content-between
+                    "
+                    role="alert"
+                  >
+                    <div class="d-flex align-items-center">
+                      <img
+                        src="https://source.unsplash.com/random/1"
+                        alt="avatar"
+                        class="rounded-circle me-2"
+                        style="width: 35px; height: 35px; object-fit: cover"
+                      />
+                      <p class="m-0">Lorem ipsum</p>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn-close p-0 m-0"
+                      data-bs-dismiss="alert"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                </li>
+              </ul> -->
+            </div>
+          </div>
+          <!-- nav -->
+          <div class="col d-none d-xl-flex justify-content-center notifications_friend">
+            <!-- home -->
+            <div class="mx-4 nav__btn nav__btn-active">
+              <button type="button" class="btn px-4">
+                <i class="fas fa-home text-muted fs-4"></i>
+              </button>
+            </div>
+            <!-- group -->
+            <div class="mx-4 nav__btn"
+              type="button"
+              id="groupuser"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <button type="button" class="btn px-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-users text-muted fs-4"
+                >
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >{% for allreq in allrequests %}
+                    {{allreq.user_request.all|length}}
+                    {% endfor %}
+                    <span class="visually-hidden"></span>
+                  </span>
+                </i>
+              </button>
+              
+            </div>
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="groupuser"
+              style="width: 23em; max-height: 600px"
+            >
+            <!-- friend requests -->
+            {% for allreq in allrequests %}
+            {% for req in allreq.user_request.all %}
+            <li class="my-2 p-1">
+              <a
+                href="#"
+                class="
+                  d-flex
+                  align-items-center
+                  justify-content-evenly
+                  text-decoration-none text-dark
+                "
+              >
+                <div class="d-flex align-items-center justify-content-evenly">
+                  <div class="p-2">
+                    <img
+                      src="{{req.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle"
+                      style="width: 58px; height: 58px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                  </div>
+                  <div>
+                    <p class="fs-7 m-0">
+                      {{req.first}}
+                    </p>
+                    <span class="fs-7 text-primary">Sent you a friend request</span><br>
+                    <span class="text-muted fs-7">{{req.updated_at|naturaltime}}</span>
+                  </div>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="/accept/{{req.id}}" role="button">accept</a>
+                  </div>
+                </div>
+                <i class="fas fa-circle fs-7 text-primary"></i>
+              </a>
+            </li>
+            {% endfor %}
+            {% endfor %}
+            <!-- end friend requests -->
+            </ul>
+          </div>
+          
+          <!-- menus -->
+          <div class="col d-flex align-items-center justify-content-end">
+            <!-- avatar -->
+            <div
+              class="align-items-center justify-content-center d-none d-xl-flex"
+            >
+              <img
+                src="{{user.avatar.url}}"
+                class="rounded-circle me-2"
+                alt="avatar"
+                style="width: 38px; height: 38px; object-fit: cover"
+                onclick="onClick(this)"
+              />
+              <p class="m-0">{{user.first}}</p>
+            </div>
+            <!-- main menu -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="mainMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <!-- main menu dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="mainMenu"
+              style="width: 23em; max-height: 600px"
+            >
+              <!-- menu -->
+              <div>
+                <!-- header -->
+                <li class="p-1 mx-2">
+                  <h2>Menu</h2>
+                </li>
+                <!-- search -->
+                <li class="p-1">
+                  <div
+                    class="input-group-text bg-gray border-0 rounded-pill"
+                    style="min-height: 40px; min-width: 230px"
+                  >
+                    <i class="fas fa-search me-2 text-muted"></i>
+                    <input
+                      type="text"
+                      class="form-control rounded-pill border-0 bg-gray"
+                      placeholder="Search Menu"
+                    />
+                  </div>
+                </li>
+                <li class="my-2 p-1">
+                  <a
+                    href="/change_avatar"
+                    class="
+                      text-decoration-none text-dark
+                      d-flex
+                      align-items-center
+                    "
+                  >
+                    <div
+                      class="
+                        rounded-circle
+                        bg-gray
+                        p-1
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        me-3
+                      "
+                      style="width: 38px; height: 38px"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </div>
+                    <div>
+                      <p class="m-0">Change your avatar</p>
+                    </div>
+                  </a>
+                </li>
+              </div>
+            </ul>
+            <!-- chat -->
+            <section class="notifications_ajax">
+            <div class="mx-4 nav__btn"
+              type="button"
+              id="groupuser"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <button type="button" class="btn px-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >{% for note in allnote %}
+                    {{note.sender.all|length}}
+                    {% endfor %}
+                    <span class="visually-hidden"></span>
+                  </span>
+                </i>
+              </button>
+              
+            </div>
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="groupuser"
+              style="width: 23em; max-height: 600px"
+            >
+            <!-- friend requests -->
+            {% for note in allnote %}
+            {% for no in note.sender.all %}
+            <li class="my-2 p-1">
+              <a
+                href="#"
+                class="
+                  d-flex
+                  align-items-center
+                  justify-content-evenly
+                  text-decoration-none text-dark
+                "
+              >
+                <div class="d-flex align-items-center justify-content-evenly">
+                  <div class="p-2">
+                    <img
+                      src="{{no.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle"
+                      style="width: 58px; height: 58px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                  </div>
+                  <div>
+                    <p class="fs-7 m-0">
+                      {{no.first}}
+                    </p>
+                    <span class="fs-7 text-primary">Sent message to you</span><br>
+                    <span class="text-muted fs-7">{{note.updated_at|naturaltime}}</span>
+                  </div>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="/message/{{no.id}}" role="button">View Message</a>
+                  </div>
+                </div>
+                <i class="fas fa-circle fs-7 text-primary"></i>
+              </a>
+            </li>
+            {% endfor %}
+            {% endfor %}
+            {% for friend in allfriends %}
+              {% for all in friend.friends.all %}
+              <a
+              class="
+                dropdown-item
+                d-flex
+                justify-content-around
+                align-items-center
+                fs-7
+              "
+              href="/message/{{all.id}}"
+                >
+              <li
+                class="dropdown-item rounded my-2 px-0"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#singleChat{{all.id}}"
+              >
+                <!-- avatar -->
+                <div
+                  class="d-flex align-items-center mx-2 chat-avatar"
+                  data-bs-custom-class="chat-box"
+                  data-bs-container="body"
+                  data-bs-toggle="popover"
+                  data-bs-placement="left"
+                  data-bs-trigger="hover"
+                  data-bs-content='
+                    <div>
+                      <div class="popover-body d-flex p-2">
+                        <div>
+                          <img src="{{all.avatar.url}}" alt="avatar" class="pop-avatar"  />
+                        </div>
+                        <div >
+                          <h5>{{all.first}}</h5>
+                          <div class="d-flex">
+                            <i class="fas fa-user-friends m-1 text-muted"></i>
+                            <p>2 mutual friends: <span class="fw-bold">Jerry</span> and <span class="fw-bold">Phu</span></p>
+                          </div>
+                          <div class="d-flex">
+                          <i class="fas fa-graduation-cap m-1 text-muted"></i>
+                          <p>Studies at MIT</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  '
+                  data-bs-html="true"
+                >
+                  <div class="position-relative">
+                    <img
+                      src="{{all.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle me-2"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                    <span
+                      class="
+                        position-absolute
+                        bottom-0
+                        translate-middle
+                        border border-light
+                        rounded-circle
+                        bg-success
+                        p-1
+                      "
+                      style="left: 75%"
+                    >
+                      <span class="visually-hidden"></span>
+                    </span>
+                  </div>
+                  <p class="m-0">{{all.first}}</p>
+                
+                </div>
+              
+              </li>
+              <div class="mx-4 nav__btn mr-4"
+              id="groupuser"
+            >
+              <button type="button" class="btn mr-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >{% for mnote in allnote %}
+                  {% for mnote1 in mnote.sender.all %}
+                  {% if all.id == mnote1.id %}
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >
+                    1
+                    <span class="visually-hidden"></span>
+                  </span>
+                  {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </i>
+              </button>
+              
+            </div>
+            </a>
+              {% endfor %}
+              {% endfor %}
+            <!-- end friend requests -->
+            </ul>
+          </section>
+            <!-- chat  dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="chatMenu"
+              style="width: 23em; max-height: 600px"
+            >
+              <li class="p-1">
+                <div
+                  class="input-group-text bg-gray border-0 rounded-pill"
+                  style="min-height: 40px; min-width: 230px"
+                >
+                  <i class="fas fa-search me-2 text-muted"></i>
+                  <input
+                    type="text"
+                    class="form-control rounded-pill border-0 bg-gray"
+                    placeholder="Search Messenger"
+                  />
+                </div>
+              </li>
+            </ul>
+            <!-- notifications -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="notMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-bell"></i>
+            </div>
+            <!-- notifications dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3"
+              aria-labelledby="notMenu"
+              style="width: 23em; max-height: 600px; overflow-y: auto"
+            >
+              <!-- header -->
+              <li class="p-1">
+                <div class="d-flex justify-content-between">
+                  <h2>Notifications</h2>
+                  <div>
+                    <i
+                      class="
+                        fas
+                        fa-ellipsis-h
+                        pointer
+                        p-2
+                        rounded-circle
+                        bg-gray
+                      "
+                      type="button"
+                      data-bs-toggle="dropdown"
+                    ></i>
+                    <ul class="dropdown-menu">
+                      <li
+                        class="dropdown-item d-flex align-items-center"
+                        type="button"
+                      >
+                        <i class="fas fa-check me-3 text-muted"></i>
+                        <p class="m-0">Mark all as read</p>
+                      </li>
+                      <li
+                        class="dropdown-item d-flex align-items-center"
+                        type="button"
+                      >
+                        <i class="fas fa-cog me-3 text-muted"></i>
+                        <p class="m-0">Privacy Checkup</p>
+                      </li>
+                      <li
+                        class="dropdown-item d-flex align-items-center"
+                        type="button"
+                      >
+                        <i class="fas fa-desktop me-3 text-muted"></i>
+                        <p class="m-0">Privacy Shortcuts</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+              </li>
+              <!-- news -->
+              <div class="d-flex justify-content-between mx-2">
+                <h5>New</h5>
+                <a href="#" class="text-decoration-none">See All</a>
+              </div>
+              <!-- news 1 -->
+              <li class="my-2 p-1">
+                <!-- friend requests -->
+            {% for allreq in allrequests %}
+            {% for req in allreq.user_request.all %}
+            <li class="my-2 p-1">
+              <a
+                href="#"
+                class="
+                  d-flex
+                  align-items-center
+                  justify-content-evenly
+                  text-decoration-none text-dark
+                "
+              >
+                <div class="d-flex align-items-center justify-content-evenly">
+                  <div class="p-2">
+                    <img
+                      src="{{req.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle"
+                      style="width: 58px; height: 58px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                  </div>
+                  <div>
+                    <p class="fs-7 m-0">
+                      {{req.first}}
+                    </p>
+                    <span class="fs-7 text-primary">Sent you a friend request</span><br>
+                    <span class="text-muted fs-7">{{req.updated_at|naturaltime}}</span>
+                  </div>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="/accept/{{req.id}}" role="button">accept</a>
+                  </div>
+                </div>
+                <i class="fas fa-circle fs-7 text-primary"></i>
+              </a>
+            </li>
+            {% endfor %}
+            {% endfor %}
+            {% for adduser in alluser %}
+              {% if user.id != adduser.id %}
+              <li class="dropdown-item p-1" style="display: flex;">
+                <a
+                  href="#"
+                  class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                  "
+                >
+                  <div class="p-2">
+                    <img
+                      src="{{adduser.avatar.url}}"
+                      alt="from fb"
+                      class="rounded border border-1 border-secondary"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                  </div>
+                  <div>
+                    <p class="m-0">{{adduser.first}} {{adduser.last}}</p>
+                    {% if adduser.id not in user_friends_list %}
+                    
+                    <a class="btn btn-primary btn-sm" onclick="hide_button(this)" href="/send/{{adduser.id}}" role="button">Add friend</a>
+                    
+                    {% endif %}
+                  </div>
+                  
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            <!-- end friend requests -->
+              </li>
+            </ul>
+            <!-- secondary menu -->
+            <div
+              class="
+                rounded-circle
+                p-1
+                bg-gray
+                d-flex
+                align-items-center
+                justify-content-center
+                mx-2
+              "
+              style="width: 38px; height: 38px"
+              type="button"
+              id="secondMenu"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <i class="fas fa-caret-down"></i>
+            </div>
+            <!-- secondary menu dd -->
+            <ul
+              class="dropdown-menu border-0 shadow p-3"
+              aria-labelledby="secondMenu"
+              style="width: 23em"
+            >
+              <!-- avatar -->
+              <li class="dropdown-item p-1 rounded d-flex" type="button">
+                <img
+                  src="{{user.avatar.url}}"
+                  alt="avatar"
+                  class="rounded-circle me-2"
+                  style="width: 45px; height: 45px; object-fit: cover"
+                  onclick="onClick(this)"
+                />
+                <div>
+                  <p class="m-0">{{user.first}}</p>
+                  <p class="m-0 text-muted">See your profile</p>
+                </div>
+              </li>
+              <hr />
+              <!-- feedback -->
+              <li
+                class="dropdown-item p-1 rounded d-flex align-items-center"
+                type="button"
+              >
+                <i
+                  class="fas fa-exclamation-circle bg-gray p-2 rounded-circle"
+                ></i>
+                <div class="ms-3">
+                  <p class="m-0">Give Feedback</p>
+                  <p class="m-0 text-muted fs-7">
+                    Help us improve the new Zoldyck.
+                  </p>
+                </div>
+              </li>
+              <hr />
+              <!-- options -->
+              <!-- 1 -->
+              <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <div class="d-flex" data-bs-toggle="dropdown">
+                      <i class="fas fa-cog bg-gray p-2 rounded-circle"></i>
+                      <div
+                        class="
+                          ms-3
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                      >
+                        <p class="m-0">Settings & Privacy</p>
+                        <i class="fas fa-chevron-right"></i>
+                      </div>
+                    </div>
+                    <!-- nested menu -->
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-cog"></i>
+                          </div>
+                          <p class="m-0">Settings</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-lock"></i>
+                          </div>
+                          <p class="m-0">Privacy Checkup</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-unlock-alt"></i>
+                          </div>
+                          <p class="m-0">Privacy Shortcuts</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-list"></i>
+                          </div>
+                          <p class="m-0">Activity Log</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-newspaper"></i>
+                          </div>
+                          <p class="m-0">News Feed Preferences</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-globe"></i>
+                          </div>
+                          <p class="m-0">Language</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <!-- 2 -->
+              <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <div class="d-flex" data-bs-toggle="dropdown">
+                      <i
+                        class="
+                          fas
+                          fa-question-circle
+                          bg-gray
+                          p-2
+                          rounded-circle
+                        "
+                      ></i>
+                      <div
+                        class="
+                          ms-3
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                      >
+                        <p class="m-0">Help & Support</p>
+                        <i class="fas fa-chevron-right"></i>
+                      </div>
+                    </div>
+                    <!-- nested menu -->
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-cog"></i>
+                          </div>
+                          <p class="m-0">Settings</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-lock"></i>
+                          </div>
+                          <p class="m-0">Privacy Checkup</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-unlock-alt"></i>
+                          </div>
+                          <p class="m-0">Privacy Shortcuts</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-list"></i>
+                          </div>
+                          <p class="m-0">Activity Log</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-newspaper"></i>
+                          </div>
+                          <p class="m-0">News Feed Preferences</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-globe"></i>
+                          </div>
+                          <p class="m-0">Language</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <!-- 3 -->
+              <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <div class="d-flex" data-bs-toggle="dropdown">
+                      <i class="fas fa-moon bg-gray p-2 rounded-circle"></i>
+                      <div
+                        class="
+                          ms-3
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                      >
+                        <p class="m-0">Display & Accessibility</p>
+                        <i class="fas fa-chevron-right"></i>
+                      </div>
+                    </div>
+                    <!-- nested menu -->
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-cog"></i>
+                          </div>
+                          <p class="m-0">Settings</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-lock"></i>
+                          </div>
+                          <p class="m-0">Privacy Checkup</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-unlock-alt"></i>
+                          </div>
+                          <p class="m-0">Privacy Shortcuts</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-list"></i>
+                          </div>
+                          <p class="m-0">Activity Log</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-newspaper"></i>
+                          </div>
+                          <p class="m-0">News Feed Preferences</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item d-flex align-items-center"
+                          href="#"
+                        >
+                          <div
+                            class="
+                              rounded-circle
+                              p-1
+                              bg-gray
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                              me-2
+                            "
+                            style="width: 38px; height: 38px"
+                          >
+                            <i class="fas fa-globe"></i>
+                          </div>
+                          <p class="m-0">Language</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <!-- 4 -->
+              <li class="dropdown-item p-1 my-3 rounded" type="button">
+                <ul class="navbar-nav">
+                </li>
+                <li class="d-flex align-items-center">
+                  <a
+                    class="
+                      dropdown-item
+                      d-flex
+                      justify-content-around
+                      align-items-center
+                      fs-7
+                    "
+                    href="/logout"
+                  >
+                    LOG OUT</a
+                  >
+                </li>
+                </ul>
+              </li>
+            </ul>
+            <!-- end -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- =============== New Chat Mobile =============== -->
+    <div
+      class="modal fade"
+      id="newChat"
+      tabindex="-1"
+      aria-labelledby="newChatLabel"
+      aria-hidden="true"
+      data-bs-backdrop="false"
+    >
+      <div
+        class="
+          modal-dialog modal-sm
+          position-absolute
+          bottom-0
+          end-0
+          w-75
+          shadow
+        "
+        style="transform: translateX(-80px)"
+      >
+        <div class="modal-content border-0">
+          <!-- head -->
+          <div class="modal-header align-items-start">
+            <div>
+              <h6 class="modal-title text-dark mb-2" id="newChat1Label">
+                New Message
+              </h6>
+              <label class="text-dark">To:</label>
+              <input type="text" class="border-0" />
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <!-- body -->
+          <div class="modal-body shadow m-0 chat-border">
+            <p class="m-0 text-primary ms-4">Suggested</p>
+          </div>
+          <!-- footer -->
+          <div class="modal-footer border-0" style="min-height: 300px"></div>
+        </div>
+      </div>
+    </div>
+    <!-- ================= Chat Modal Mobile ================= -->
+    <!-- ================= Main ================= -->
+    <div class="container-fluid">
+      <div class="row justify-content-evenly">
+        <!-- ================= Sidebar ================= -->
+        <div class="col-12 col-lg-3">
+          <div
+            class="d-none d-xxl-block h-100 fixed-top overflow-hidden scrollbar"
+            style="max-width: 360px; width: 100%; z-index: 1"
+          >
+            <ul
+              class="navbar-nav mt-4 ms-3 d-flex flex-column pb-5 mb-5"
+              style="padding-top: 56px"
+            >
+              <!-- top -->
+              <!-- avatar -->
+              <li class="dropdown-item p-1 rounded">
+                <a
+                  href="#"
+                  class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                  "
+                >
+                  <div class="p-2">
+                    <img
+                      src="{{user.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle me-2"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                  </div>
+                  <div>
+                    <p class="m-0">{{user.first}}</p>
+                  </div>
+                </a>
+              </li>
+              <!-- top 1 -->
+              
+              <!-- top 2 -->
+              
+              <!-- see more -->
+              <li class="p-1" type="button">
+                <div id="accordionFlushExample">
+                  <div>
+                    <!-- see more button -->
+                    <div
+                      class="d-flex align-items-center"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#flush-collapseOne"
+                      aria-expanded="false"
+                      aria-controls="flush-collapseOne"
+                    >
+                      <div class="p-2">
+                        <i
+                          class="fas fa-chevron-down rounded-circle p-2"
+                          style="background-color: #d5d5d5 !important"
+                        ></i>
+                      </div>
+                      <div>
+                        <p class="m-0">See More</p>
+                      </div>
+                    </div>
+                    <!-- content -->
+                    <div
+                      id="flush-collapseOne"
+                      class="accordion-collapse collapse"
+                      aria-labelledby="flush-headingOne"
+                      data-bs-parent="#accordionFlushExample"
+                    >
+                      <div>
+                        <!-- item 1 -->
+                        <div class="
+
+                          dropdown-item
+                          rounded
+                          d-flex
+                          align-items-center
+                          justify-content-center
+                        "
+                        type="button"
+                        >
+                          <i class="fas fa-photo-video me-2 text-success"></i>
+                          <p class="m-0 text-muted">My Photos</p>
+                        </div>
+                        <!-- end -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <hr class="m-0" />
+              <!-- shortcuts -->
+              <!-- heading -->
+              <div
+                class="
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  mt-2
+                  text-muted
+                  edit-heading
+                "
+              >
+                <h4 class="m-0 pointer">Zoldyck Users</h4>
+                <p
+                  class="m-0 text-primary me-3 pointer edit-button"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#shortCutModal"
+                >
+                  Edit
+                </p>
+                <!-- modal -->
+                <div
+                  class="modal fade"
+                  id="shortCutModal"
+                  tabindex="-1"
+                  aria-labelledby="shortCutModalLabel"
+                  aria-hidden="true"
+                  data-bs-backdrop="false"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <!-- head -->
+                      <div class="modal-header align-items-center">
+                        <h5
+                          class="text-dark text-center w-100 m-0"
+                          id="exampleModalLabel"
+                        >
+                          Edit Your ShortCuts
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <!-- body -->
+                      <div class="modal-body">
+                        <p class="text-muted">
+                          Shortcuts provide quick access to what you do most on
+                          Zoldyck. Your Shortcuts are sorted automatically, but
+                          you can pin something so it's always shown at the top
+                          or hide it from the list.
+                        </p>
+                        <!-- Search -->
+                        <div class="p-1">
+                          <div
+                            class="
+                              input-group-text
+                              bg-gray
+                              border-0
+                              rounded-pill
+                            "
+                            style="min-height: 40px; min-width: 230px"
+                          >
+                            <i class="fas fa-search me-2 text-muted"></i>
+                            <input
+                              type="text"
+                              class="form-control rounded-pill border-0 bg-gray"
+                              placeholder="Search your Pages, groups, games, and events"
+                            />
+                          </div>
+                        </div>
+                        <!-- short-1 -->
+                        <li class="my-1 p-1">
+                          <div
+                            class="
+                              d-flex
+                              align-items-center
+                              justify-content-between
+                              text-decoration-none text-dark
+                            "
+                          >
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                justify-content-evenly
+                              "
+                            >
+                              <div class="p-2">
+                                <img
+                                  src="https://source.unsplash.com/random/1"
+                                  alt="from fb"
+                                  class="
+                                    rounded
+                                    border border-1 border-secondary
+                                  "
+                                  style="
+                                    width: 38px;
+                                    height: 38px;
+                                    object-fit: cover;
+                                  "
+                                />
+                              </div>
+                              <div>
+                                <p class="m-0">Lorem Ipsum</p>
+                              </div>
+                            </div>
+                            <select
+                              class="form-select w-50 border-0 bg-gray"
+                              aria-label="Default select example"
+                            >
+                              <option selected value="1">
+                                Short Automatically
+                              </option>
+                              <option value="2">Pin To Top</option>
+                              <option value="3">Hide</option>
+                            </select>
+                          </div>
+                        </li>
+                        <!-- short-2 -->
+                        <li class="my-1 p-1">
+                          <div
+                            class="
+                              d-flex
+                              align-items-center
+                              justify-content-between
+                              text-decoration-none text-dark
+                            "
+                          >
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                justify-content-evenly
+                              "
+                            >
+                              <div class="p-2">
+                                <img
+                                  src="https://source.unsplash.com/random/2"
+                                  alt="from fb"
+                                  class="
+                                    rounded
+                                    border border-1 border-secondary
+                                  "
+                                  style="
+                                    width: 38px;
+                                    height: 38px;
+                                    object-fit: cover;
+                                  "
+                                />
+                              </div>
+                              <div>
+                                <p class="m-0">Lorem Ipsum</p>
+                              </div>
+                            </div>
+                            <select
+                              class="form-select w-50 border-0 bg-gray"
+                              aria-label="Default select example"
+                            >
+                              <option selected value="1">
+                                Short Automatically
+                              </option>
+                              <option value="2">Pin To Top</option>
+                              <option value="3">Hide</option>
+                            </select>
+                          </div>
+                        </li>
+                        <!-- short-3 -->
+                        <li class="my-1 p-1">
+                          <div
+                            class="
+                              d-flex
+                              align-items-center
+                              justify-content-between
+                              text-decoration-none text-dark
+                            "
+                          >
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                justify-content-evenly
+                              "
+                            >
+                              <div class="p-2">
+                                <img
+                                  src="https://source.unsplash.com/random/3"
+                                  alt="from fb"
+                                  class="
+                                    rounded
+                                    border border-1 border-secondary
+                                  "
+                                  style="
+                                    width: 38px;
+                                    height: 38px;
+                                    object-fit: cover;
+                                  "
+                                />
+                              </div>
+                              <div>
+                                <p class="m-0">Lorem Ipsum</p>
+                              </div>
+                            </div>
+                            <select
+                              class="form-select w-50 border-0 bg-gray"
+                              aria-label="Default select example"
+                            >
+                              <option selected value="1">
+                                Short Automatically
+                              </option>
+                              <option value="2">Pin To Top</option>
+                              <option value="3">Hide</option>
+                            </select>
+                          </div>
+                        </li>
+                        <!-- end -->
+                      </div>
+                      <!-- footer -->
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-light text-primary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                          Save changes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end -->
+              </div>
+              <!-- short 1 -->
+              {% for adduser in alluser %}
+              {% if user.id != adduser.id %}
+              <li class="dropdown-item p-1" style="display: flex;">
+                <a
+                  href="#"
+                  class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none text-dark
+                  "
+                >
+                  <div class="p-2">
+                    <img
+                      src="{{adduser.avatar.url}}"
+                      alt="from fb"
+                      class="rounded border border-1 border-secondary"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                  </div>
+                  <div>
+                    <p class="m-0">{{adduser.first}} {{adduser.last}}</p>
+                    {% if adduser.id not in user_friends_list %}
+                    
+                    <a class="btn btn-primary btn-sm" onclick="hide_button(this)" href="/send/{{adduser.id}}" role="button">Add friend</a>
+                    
+                    {% endif %}
+                  </div>
+                  
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+            <!-- terms -->
+            <div class="p-2 mt-5">
+              <p class="text-muted fs-7">
+                Privacy &#8226; Terms &#8226; Advertising &#8226; Ad Choices
+                &#8226; Cookies &#8226; Zoldyck © 2021
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- ================= Timeline ================= -->
+        
+        <div class="col-12 col-lg-6 pb-5">
+          <div
+            class="d-flex flex-column justify-content-center w-100 mx-auto"
+            style="padding-top: 56px; max-width: 680px"
+          >
+            <!-- stories -->
+            
+            <div class="mt-5 d-flex justify-content-between position-relative">
+              <!-- s 1 -->
+              
+              <div
+                class="mx-1 bg-white rounded story"
+                type="button"
+                style="width: 6em; height: 190px"
+              >
+                <a href="/change_avatar">
+                  <img
+                    src="{{user.avatar.url}}"
+                    class="card-img-top"
+                    alt="story posts"
+                    style="min-height: 125px; object-fit: cover"
+                    onclick="onClick(this)"
+                  />
+                  <div
+                    class="
+                      d-flex
+                      align-items-center
+                      justify-content-center
+                      position-relative
+                    "
+                    style="min-height: 65px"
+                  >
+                    <p class="mb-0 text-center fs-7 fw-bold">Create Story</p>
+
+                    <div
+                      class="position-absolute top-0 start-50 translate-middle"
+                    >
+                      <i
+                        class="
+                          fas
+                          fa-plus-circle
+                          fs-3
+                          text-primary
+                          bg-white
+                          p-1
+                          rounded-circle
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              {% for img in allphoto|slice:":7" %}
+              <div
+                class="rounded mx-1 story"
+                type="button"
+                style="width: 6em; height: 190px"
+              >
+              <!-- image_expand -->
+                <img
+                  src="{{img.photo.url}}"
+                  class="card-img-top rounded"
+                  alt="story posts"
+                  style="min-height: 190px; object-fit: cover"
+                  
+                  onclick="onClick(this)"
+                />
+                
+              </div>
+              {% endfor %}
+              <!-- s 2 -->
+              <!-- slider desktop -->
+              
+              <!-- next icon -->
+              <div
+                class="
+                  position-absolute
+                  top-50
+                  start-100
+                  translate-middle
+                  pointer
+                  d-none d-lg-block
+                "
+              >
+                <i
+                  class="
+                    fas
+                    fa-arrow-right
+                    p-3
+                    border
+                    text-muted
+                    bg-white
+                    rounded-circle
+                  "
+                ></i>
+              </div>
+            </div>
+            <!-- create post -->
+            <div class="bg-white p-3 mt-3 rounded border shadow">
+              <!-- avatar -->
+              <div class="d-flex" type="button">
+                <div class="p-1">
+                  <img
+                    src="{{user.avatar.url}}"
+                    alt="avatar"
+                    class="rounded-circle me-2"
+                    style="width: 38px; height: 38px; object-fit: cover"
+                    onclick="onClick(this)"
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control rounded-pill border-0 bg-gray pointer"
+                  
+                  placeholder="What's on your mind, {{user.first}}?"
+                  data-bs-toggle="modal"
+                  data-bs-target="#createModal"
+                />
+              </div>
+              <!-- create modal -->
+              <div
+                class="modal fade"
+                id="createModal"
+                tabindex="-1"
+                aria-labelledby="createModalLabel"
+                aria-hidden="true"
+                data-bs-backdrop="false"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <form action="/post" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-content">
+                      <!-- head -->
+                      <div class="modal-header align-items-center">
+                        <h5
+                          class="text-dark text-center w-100 m-0"
+                          id="exampleModalLabel"
+                        >
+                          Create Post
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <!-- body -->
+                      <div class="modal-body">
+                        <div class="my-1 p-1">
+                          <div class="d-flex flex-column">
+                            <!-- name -->
+                            <div class="d-flex align-items-center">
+                              <div class="p-2">
+                                <img
+                                  src="{{user.avatar.url}}"
+                                  alt="from fb"
+                                  class="rounded-circle"
+                                  style="
+                                    width: 38px;
+                                    height: 38px;
+                                    object-fit: cover;
+                                  "
+                                  onclick="onClick(this)"
+                                />
+                              </div>
+                              <div>
+                                <p class="m-0 fw-bold">{{user.first}}</p>
+                                <select
+                                  class="form-select border-0 bg-gray w-75 fs-7"
+                                  aria-label="Default select example"
+                                >
+                                  <option selected value="1">Public</option>
+                                  <option value="2">Pin To Top</option>
+                                  <option value="3">Hide</option>
+                                </select>
+                              </div>
+                            </div>
+                            <!-- text -->
+                            <div>
+                              <textarea name="post_desc"
+                                id="emoji_to_add"
+                                cols="30"
+                                rows="5"
+                                class="form-control border-0 m-2"
+                              ></textarea>
+                            </div>
+                            <!-- emoji  -->
+                            <div
+                            class="
+                            accordion-button
+                            collapsed
+                            pointer
+                            d-flex
+                            justify-content-end
+                          "
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapsePostemoji"
+                          aria-expanded="false"
+                          aria-controls="collapsePostemoji"
+                            >
+                              
+                              <i
+                                class="far fa-laugh-wink fs-5 text-muted pointer dropdown-item
+                                d-flex
+                                justify-content-around
+                                align-items-center
+                                fs-7"
+                              ></i>
+                            </div>
+                            <!-- add emoji by motaz -->
+                            <div
+                          id="collapsePostemoji"
+                          class="accordion-collapse collapse"
+                          aria-labelledby="headingTwo"
+                          data-bs-parent="#accordionExample"
+                          >
+                        <hr />
+                        <div class="accordion-body">
+                          <span class="btn textemoji" onclick="copypaste(this)">😙</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">👌</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😘</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😎</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">💋</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">✌</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">👨🏼‍❤️‍💋‍👩</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">❤️</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🎅</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🎄</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🏃</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😉</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">💃</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😈</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😳</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🤦‍♀️</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😬</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😨</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">👋</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😣</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">👍</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🤣</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🙈</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🤮</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😋</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">😭</span>
+                          <span class="btn textemoji" onclick="copypaste(this)">🤷🏾‍♀️</span>
+                        </div>
+                      </div>
+                            <!-- -------------- -->
+                            <!-- options -->
+                            <div
+                              class="
+                                d-flex
+                                justify-content-between
+                                border border-1 border-light
+                                rounded
+                                p-3
+                                mt-3
+                              "
+                            >
+                              <p class="m-0">Add to your post</p>
+                              <div>
+                                <i
+                                  class="
+                                    fas
+                                    fa-images
+                                    fs-5
+                                    text-success
+                                    pointer
+                                    mx-1
+                                  "
+                                ></i>
+                              </div>
+                              <div class="mb-3">
+                                <label for="img" class="from-label">PIC</label>
+                                <input type="file" class="form-control" id="img" name="img"> 
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <!-- footer -->
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">
+                          Post
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+              <hr />
+              <!-- actions -->
+              <div class="d-flex flex-column flex-lg-row mt-3">
+                <!-- a 1 -->
+                <div
+                  class="
+                    dropdown-item
+                    rounded
+                    d-flex
+                    align-items-center
+                    justify-content-center
+                  "
+                  type="button"
+                >
+                  <i class="fas fa-photo-video me-2 text-success"></i>
+                  <p class="m-0 text-muted">Photo</p>
+                </div>
+                <!-- a 2 -->
+                <div
+                  class="
+                    dropdown-item
+                    rounded
+                    d-flex
+                    align-items-center
+                    justify-content-center
+                  "
+                  type="button"
+                >
+                  <i class="fas fa-smile me-2 text-warning"></i>
+                  <p class="m-0 text-muted">Feeling/Activity</p>
+                </div>
+              </div>
+            </div>
+            <!-- create room -->
+            <div
+              class="
+                bg-white
+                p-3
+                mt-3
+                rounded
+                border
+                shadow
+                d-flex
+                justify-content-between
+                position-relative
+              "
+            >
+              <!-- slider mobile -->
+              
+              <div class="d-xxl-none">
+                {% for img in allphoto|slice:":15" %}
+                <img
+                  src="{{img.photo.url}}"
+                  alt="avatar"
+                  class="rounded-circle me-2"
+                  style="width: 38px; height: 38px; object-fit: cover"
+                  onclick="onClick(this)"
+                />
+                {% endfor %}
+              </div>
+              
+              <!-- slider desktop -->
+              <div class="d-none d-xxl-block" style="max-width: 450px">
+                <div
+                  id="carouselExampleControls"
+                  class="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div class="carousel-inner">
+                    
+                    <div class="carousel-item active">
+                      {% for img in allphoto|slice:":5" %}
+                      <img
+                        src="{{img.photo.url}}"
+                        alt="avatar"
+                        class="rounded-circle me-2"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                        onclick="onClick(this)"
+                      />
+                      {% endfor %}
+                    </div>
+                    <div class="carousel-item">
+                      {% for img in allphoto|slice:"5:10" %}
+                      <img
+                        src="{{img.photo.url}}"
+                        alt="avatar"
+                        class="rounded-circle me-2"
+                        style="width: 38px; height: 38px; object-fit: cover"
+                        onclick="onClick(this)"
+                      />
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- slider btn -->
+              <div
+                class="
+                  position-absolute
+                  start-0
+                  top-50
+                  translate-middle
+                  d-none d-xxl-block
+                "
+                type="button"
+                data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev"
+              >
+                <div
+                  class="
+                    p-2
+                    bg-white
+                    border
+                    rounded-circle
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    pointer
+                    story
+                  "
+                  style="width: 30px; height: 30px"
+                >
+                  <i class="fas fa-chevron-left text-muted"></i>
+                </div>
+              </div>
+
+              <div
+                class="
+                  position-absolute
+                  start-100
+                  top-50
+                  translate-middle
+                  d-none d-xxl-block
+                "
+                type="button"
+                data-bs-target="#carouselExampleControls"
+                data-bs-slide="next"
+              >
+                <div
+                  class="
+                    p-2
+                    bg-white
+                    border
+                    rounded-circle
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    pointer
+                    story
+                  "
+                  style="width: 30px; height: 30px"
+                >
+                  <i class="fas fa-chevron-right text-muted"></i>
+                </div>
+              </div>
+            </div>
+            <!-- posts -->
+            <!-- p 1 -->
+            <div class="d-flex flex-column-reverse bd-highlight">
+            {% for post in allpost %}
+            <div class="bg-white p-4 rounded shadow mt-3">
+              <!-- author -->
+              <div class="d-flex justify-content-between">
+                <!-- avatar -->
+                <div class="d-flex">
+                  <img
+                    src="{{post.posted_by.avatar.url}}"
+                    alt="avatar"
+                    class="rounded-circle me-2"
+                    style="width: 38px; height: 38px; object-fit: cover"
+                    onclick="onClick(this)"
+                  />
+                  <div>
+                    
+                    <p class="m-0 fw-bold">{{post.posted_by.first}}</p>
+                    <span class="text-muted fs-7">{{post.updated_at|naturaltime}}</span>
+                  </div>
+                </div>
+                <!-- edit -->
+                {% if user.id == post.posted_by.id %}
+                <!-- Edit Post modal start -->
+              <div
+              class="modal fade"
+              id="createModal2"
+              tabindex="-1"
+              aria-labelledby="createModalLabel"
+              aria-hidden="true"
+              data-bs-backdrop="false"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <form action="/edit_post/{{post.id}}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="modal-content">
+                    <!-- head -->
+                    <div class="modal-header align-items-center">
+                      <h5
+                        class="text-dark text-center w-100 m-0"
+                        id="exampleModalLabel"
+                      >
+                        Edit Post
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <!-- body -->
+                    <div class="modal-body">
+                      <div class="my-1 p-1">
+                        <div class="d-flex flex-column">
+                          <!-- name -->
+                          <div class="d-flex align-items-center">
+                            <div class="p-2">
+                              <img
+                                src="{{user.avatar.url}}"
+                                alt="from fb"
+                                class="rounded-circle"
+                                style="
+                                  width: 38px;
+                                  height: 38px;
+                                  object-fit: cover;
+                                "
+                                onclick="onClick(this)"
+                              />
+                            </div>
+                            <div>
+                              <p class="m-0 fw-bold">{{user.first}}</p>
+                              <select
+                                class="form-select border-0 bg-gray w-75 fs-7"
+                                aria-label="Default select example"
+                              >
+                                <option selected value="1">Public</option>
+                                <option value="2">Pin To Top</option>
+                                <option value="3">Hide</option>
+                              </select>
+                            </div>
+                          </div>
+                          <!-- text -->
+                          <div>
+                            <textarea name="post_desc"
+                              cols="30"
+                              rows="5"
+                              class="form-control border-0"
+                            ></textarea>
+                          </div>
+                          <!-- emoji  -->
+                          <div
+                            class="
+                              d-flex
+                              justify-content-between
+                              align-items-center
+                            "
+                          >
+                            
+                            <i
+                              class="far fa-laugh-wink fs-5 text-muted pointer"
+                            ></i>
+                          </div>
+                          <!-- options -->
+                        </div>
+                      </div>
+                      <!-- end -->
+                    </div>
+                    <!-- footer -->
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary w-100">
+                        RePost
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- -------------- -->
+                <i
+                  class="fas fa-ellipsis-h"
+                  type="button"
+                  id="post1Menu"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                ></i>
+                <!-- edit menu -->
+                
+                <ul
+                  class="dropdown-menu border-0 shadow"
+                  aria-labelledby="post1Menu"
+                >
+                  <li class="d-flex align-items-center">
+                    <a
+                      class="
+                        dropdown-item
+                        d-flex
+                        justify-content-around
+                        align-items-center
+                        fs-7
+                      "
+                      data-bs-toggle="modal"
+                      data-bs-target="#createModal2"
+                      href="#"
+                    >
+                      Edit Post</a
+                    >
+                  </li>
+                  
+                  
+                  <li class="d-flex align-items-center">
+                    <a
+                      class="
+                        dropdown-item
+                        d-flex
+                        justify-content-around
+                        align-items-center
+                        fs-7
+                      "
+                      href="/delete/{{post.id}}"
+                    >
+                      Delete Post</a
+                    >
+                  </li>
+                  
+                </ul>
+                {% endif %}
+              </div>
+              <!-- post content -->
+              <div class="mt-3">
+                <!-- content -->
+                <div>
+                  <p>
+                    {{post.desc}}
+                  </p>
+                  {% for img in post.post_photos.all %}
+                  {% if img.photo.url|length > 0 %}
+                  <img 
+                    src="{{img.photo.url}}"
+                    alt="post image"
+                    class="img-fluid rounded"
+                    onclick="onClick(this)"
+                  />
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                
+                <!-- likes & comments -->
+                <div class="post__comment mt-3 position-relative">
+                  <!-- likes -->
+                  <div
+                  class="d-flex align-items-center mx-2 chat-avatar"
+                  data-bs-custom-class="chat-box"
+                  data-bs-container="body"
+                  data-bs-toggle="popover"
+                  data-bs-placement="left"
+                  data-bs-trigger="hover"
+                  data-bs-content='
+                    <div>
+                      <div class="popover-body d-flex p-2">
+                        <div>
+                          {% for like in post.liked_by.all %}
+                          <p>{{like.first}} {{like.last}}</p>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  '
+                  data-bs-html="true"
+                >
+                  <div
+                    class="
+                      d-flex
+                      align-items-center
+                      top-0
+                      start-0
+                      position-absolute
+                    "
+                    style="height: 50px; z-index: 1"
+                  >
+                    <div class="me-2">
+                      <i class="text-primary fas fa-thumbs-up"></i>
+                      <i class="text-danger fab fa-gratipay"></i>
+                      <i class="text-warning fas fa-grin-squint"></i>
+                    </div>
+                    <p id="like-{{post.id}}" class="m-0 text-muted fs-7">{{post.liked_by.all|length}} likes</p>
+                  </div>
+                </div>
+                  <!-- comments start-->
+                  <div class="accordion" id="accordionExample">
+                    <div class="accordion-item border-0">
+                      <!-- comment collapse -->
+                      <h2 class="accordion-header" id="headingTwo">
+                        <div
+                          class="
+                            accordion-button
+                            collapsed
+                            pointer
+                            d-flex
+                            justify-content-end
+                          "
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapsePost{{post.id}}"
+                          aria-expanded="false"
+                          aria-controls="collapsePost{{post.id}}"
+                        >
+                          <p id="comment_count_no-{{post.id}}"class="m-0">{{ post.post_comments.all|length }} Comments</p>
+                        </div>
+                      </h2>
+                      <hr />
+                      <!-- comment & like bar -->
+                      <div class="d-flex justify-content-around">
+                        <div
+                          class="
+                            dropdown-item
+                            rounded
+                            d-flex
+                            justify-content-center
+                            align-items-center
+                            pointer
+                            text-muted
+                            p-1
+                          "
+                        >
+                          <i class="fas fa-thumbs-up me-3"></i><li class="like_dojo d-flex align-items-center">
+                            <button 
+                              class="
+                                like_link
+                                dropdown-item
+                                d-flex
+                                justify-content-around
+                                align-items-center
+                                fs-7
+                              "
+                              name="/like/{{post.id}}"
+                            >
+                              LIKE</button
+                            >
+                            
+                          </li>
+                        </div>
+                        <div
+                          class="
+                            dropdown-item
+                            rounded
+                            d-flex
+                            justify-content-center
+                            align-items-center
+                            pointer
+                            text-muted
+                            p-1
+                          "
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapsePost{{post.id}}"
+                          aria-expanded="false"
+                          aria-controls="collapsePost{{post.id}}"
+                        >
+                          <i class="fas fa-comment-alt me-3"></i>
+                          <p class="m-0">Comment</p>
+                        </div>
+                      </div>
+                      <!-- comment expand -->
+                      <div
+                        id="collapsePost{{post.id}}"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <hr />
+                        <div class="accordion-body">
+                          <!-- comment 1 -->
+                          <section class="allcomment-{{post.id}}">
+                          {% for comment in post.post_comments.all %}
+                          <div class="d-flex align-items-center my-1">
+                            <!-- avatar -->
+                            <img
+                              src="{{comment.commented_by.avatar.url}}"
+                              alt="avatar"
+                              class="rounded-circle me-2"
+                              style="
+                                width: 38px;
+                                height: 38px;
+                                object-fit: cover;
+                              "
+                              onclick="onClick(this)"
+                            />
+                            <!-- comment text -->
+                            <div class="p-3 rounded comment__input w-100">
+                              <!-- comment menu of author -->
+                              {% if user.id == comment.commented_by.id %}
+                              <div class="d-flex justify-content-end">
+                                <!-- icon -->
+                                <i
+                                  class="fas fa-ellipsis-h text-blue pointer"
+                                  id="post{{post.id}}CommentMenuButton"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                ></i>
+                                <!-- menu -->
+                                <ul
+                                  class="dropdown-menu border-0 shadow"
+                                  aria-labelledby="post{{post.id}}CommentMenuButton"
+                                >
+                                  <li class="d-flex align-items-center">
+                                    <a
+                                      class="
+                                        dropdown-item
+                                        d-flex
+                                        justify-content-around
+                                        align-items-center
+                                        fs-7
+                                      "
+                                      href="/delete_comment/{{comment.id}}"
+                                    >
+                                      Delete Comment</a
+                                    >
+                                  </li>
+                                  
+                                </ul>
+                                
+                              </div>
+                              {% endif %}
+                              <p class="fw-bold m-0">{{comment.commented_by.first}}</p>
+                              <p class="m-0 fs-7 bg-gray p-2 rounded">
+                                {{comment.desc}}
+                              </p><span class="text-muted fs-7">{{comment.updated_at|naturaltime}}</span>
+                            </div>
+                          </div>
+                        
+                          {% endfor %}
+                        </section>
+                          <!-- create comment -->
+                          <form class="d-flex my-1" id="regForm-{{post.id}}"  method="POST" >
+                            {% csrf_token %}
+                            <!-- avatar -->
+                            <div>
+                              <img
+                                src="{{user.avatar.url}}"
+                                alt="avatar"
+                                class="rounded-circle me-2"
+                                style="
+                                  width: 38px;
+                                  height: 38px;
+                                  object-fit: cover;
+                                "
+                                onclick="onClick(this)"
+                              />
+                            </div>
+                            <!-- input -->
+                            <input
+                              type="text"
+                              min="2"
+                              minlength="2"
+                              name="comment_desc"
+                              class="form-control border-0 rounded-pill bg-gray clear_comment"
+                              placeholder="Write a comment"
+                            />
+                            <div>
+                              <button id="{{post.id}}" class="addcomment btn btn-success btn-xsm" type="button" >add</button>
+                              </button>
+                            </div>
+                          </form>
+                          <!-- end -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end -->
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- ================= Chatbar ================= -->
+        <div class="col-12 col-lg-3">
+          <div
+            class="
+              d-none d-xxl-block
+              h-100
+              fixed-top
+              end-0
+              overflow-hidden
+              scrollbar
+            "
+            style="
+              max-width: 360px;
+              width: 100%;
+              z-index: 1;
+              padding-top: 56px;
+              left: initial !important;
+            "
+          >
+            <div class="p-3 mt-4">
+              <!-- sponsors -->
+              <h5 class="text-muted">Sponsored</h5>
+              <!-- s 1 -->
+              <li class="dropdown-item my-2 d-flex justify-content-between">
+                <!-- img -->
+                <a
+                  href="#"
+                  class="
+                    d-flex
+                    align-items-center
+                    text-decoration-none
+                    link-dark
+                  "
+                >
+                  <img
+                    src="{% static 'axsos-logo.png' %}"
+                    alt="ads"
+                    style="width: 100px; height: 100px; object-fit: cover"
+                    class="rounded me-3"
+                  />
+                  <div>
+                    <p class="m-0">AXSOS AG</p>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <a
+                      class="
+                        dropdown-item
+                        d-flex
+                        justify-content-around
+                        align-items-center
+                        fs-7
+                      "
+                      href="https://axsos.academy/"
+                    >
+                    axsos.academy</a
+                    >
+                  </li>
+                  </div>
+                </a>
+              </li>
+              <hr class="m-0" />
+              <div
+                class="my-3 d-flex justify-content-between align-items-center">
+                <p class="text-muted fs-5 m-0">Contacts Messages</p>
+              </div>
+              <!-- friend 1 -->
+              {% for friend in allfriends %}
+              {% for all in friend.friends.all %}
+              <a
+              class="
+                dropdown-item
+                d-flex
+                justify-content-around
+                align-items-center
+                fs-7
+              "
+              href="/message/{{all.id}}"
+                >
+              <li
+                class="dropdown-item rounded my-2 px-0"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#singleChat{{all.id}}"
+              >
+                <!-- avatar -->
+                <div
+                  class="d-flex align-items-center mx-2 chat-avatar"
+                  data-bs-custom-class="chat-box"
+                  data-bs-container="body"
+                  data-bs-toggle="popover"
+                  data-bs-placement="left"
+                  data-bs-trigger="hover"
+                  data-bs-content='
+                    <div>
+                      <div class="popover-body d-flex p-2">
+                        <div>
+                          <img src="{{all.avatar.url}}" alt="avatar" class="pop-avatar"  />
+                        </div>
+                        <div >
+                          <h5>{{all.first}}</h5>
+                          <div class="d-flex">
+                            <i class="fas fa-user-friends m-1 text-muted"></i>
+                            <p>Date Of Birth: {{all.dob.year}}/{{all.dob.month}}/{{all.dob.day}}</p>
+                          </div>
+                          <div class="d-flex">
+                          <i class="fas fa-graduation-cap m-1 text-muted"></i>
+                          <p>Gender:{{all.gender}}</p>
+                          </div>
+                          <div class="d-flex">
+                          <i class="fas fa-graduation-cap m-1 text-muted"></i>
+                          <p>Joined:{{all.created_at.month}}/{{all.created_at.year}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  '
+                  data-bs-html="true"
+                >
+                  <div class="position-relative">
+                    <img
+                      src="{{all.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle me-2"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                      onclick="onClick(this)"
+                    />
+                    <span
+                      class="
+                        position-absolute
+                        bottom-0
+                        translate-middle
+                        border border-light
+                        rounded-circle
+                        bg-success
+                        p-1
+                      "
+                      style="left: 75%"
+                    >
+                      <span class="visually-hidden"></span>
+                    </span>
+                  </div>
+                  <p class="m-0">{{all.first}}</p>
+                
+                </div>
+              
+              </li>
+              <div class="mx-4 nav__btn mr-4"
+              id="groupuser"
+            >
+              <button type="button" class="btn mr-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >{% for mnote in allnote %}
+                  {% for mnote1 in mnote.sender.all %}
+                  {% if all.id == mnote1.id %}
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >
+                    1
+                    <span class="visually-hidden"></span>
+                  </span>
+                  {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </i>
+              </button>
+              
+            </div>
+            </a>
+              {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+  
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'main.js' %}"></script>
+</html>

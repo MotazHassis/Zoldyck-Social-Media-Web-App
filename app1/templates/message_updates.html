@@ -1,0 +1,191 @@
+{% load humanize %}
+<div class="mx-4 nav__btn"
+              type="button"
+              id="groupuser"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-auto-close="outside"
+            >
+              <button type="button" class="btn px-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >{% for note in allnote %}
+                    {{note.sender.all|length}}
+                    {% endfor %}
+                    <span class="visually-hidden"></span>
+                  </span>
+                  
+                </i>
+              </button>
+            </div>
+            
+            <ul
+              class="dropdown-menu border-0 shadow p-3 overflow-auto"
+              aria-labelledby="groupuser"
+              style="width: 23em; max-height: 600px"
+            >
+            <!-- friend requests -->
+            {% for note in allnote %}
+            {% for no in note.sender.all %}
+            <li class="my-2 p-1">
+              <a
+                href="#"
+                class="
+                  d-flex
+                  align-items-center
+                  justify-content-evenly
+                  text-decoration-none text-dark
+                "
+              >
+                <div class="d-flex align-items-center justify-content-evenly">
+                  <div class="p-2">
+                    <img
+                      src="{{no.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle"
+                      style="width: 58px; height: 58px; object-fit: cover"
+                    />
+                  </div>
+                  <div>
+                    <p class="fs-7 m-0">
+                      {{no.first}}
+                    </p>
+                    <span class="fs-7 text-primary">Sent message to you</span><br>
+                    <span class="text-muted fs-7">{{note.updated_at|naturaltime}}</span>
+                  </div>
+                  <div>
+                    <a class="btn btn-primary btn-sm" href="/message/{{no.id}}" role="button">View Message</a>
+                  </div>
+                </div>
+                <i class="fas fa-circle fs-7 text-primary"></i>
+              </a>
+            </li>
+            {% endfor %}
+            {% endfor %}
+
+          <!-- </section> -->
+            {% for friend in allfriends %}
+              {% for all in friend.friends.all %}
+              <a
+              class="
+                dropdown-item
+                d-flex
+                justify-content-around
+                align-items-center
+                fs-7
+              "
+              href="/message/{{all.id}}"
+                >
+              <li
+                class="dropdown-item rounded my-2 px-0"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#singleChat{{all.id}}"
+              >
+                <!-- avatar -->
+                <div
+                  class="d-flex align-items-center mx-2 chat-avatar"
+                  data-bs-custom-class="chat-box"
+                  data-bs-container="body"
+                  data-bs-toggle="popover"
+                  data-bs-placement="left"
+                  data-bs-trigger="hover"
+                  data-bs-content='
+                    <div>
+                      <div class="popover-body d-flex p-2">
+                        <div>
+                          <img src="{{all.avatar.url}}" alt="avatar" class="pop-avatar"  />
+                        </div>
+                        <div >
+                          <h5>{{all.first}}</h5>
+                          <div class="d-flex">
+                            <i class="fas fa-user-friends m-1 text-muted"></i>
+                            <p>2 mutual friends: <span class="fw-bold">Jerry</span> and <span class="fw-bold">Phu</span></p>
+                          </div>
+                          <div class="d-flex">
+                          <i class="fas fa-graduation-cap m-1 text-muted"></i>
+                          <p>Studies at MIT</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  '
+                  data-bs-html="true"
+                >
+                  <div class="position-relative">
+                    <img
+                      src="{{all.avatar.url}}"
+                      alt="avatar"
+                      class="rounded-circle me-2"
+                      style="width: 38px; height: 38px; object-fit: cover"
+                    />
+                    <span
+                      class="
+                        position-absolute
+                        bottom-0
+                        translate-middle
+                        border border-light
+                        rounded-circle
+                        bg-success
+                        p-1
+                      "
+                      style="left: 75%"
+                    >
+                      <span class="visually-hidden"></span>
+                    </span>
+                  </div>
+                  <p class="m-0">{{all.first}}</p>
+                
+                </div>
+              
+              </li>
+              <div class="mx-4 nav__btn mr-4"
+              id="groupuser"
+            >
+              <button type="button" class="btn mr-4">
+                <i
+                  type="button"
+                  class="position-relative fas fa-comment text-muted fs-4"
+                >{% for mnote in allnote %}
+                  {% for mnote1 in mnote.sender.all %}
+                  {% if all.id == mnote1.id %}
+                  <span
+                    class="
+                      position-absolute
+                      top-0
+                      start-100
+                      translate-middle
+                      badge
+                      rounded-pill
+                      bg-danger
+                    "
+                    style="font-size: 0.5rem"
+                  >
+                    1
+                    <span class="visually-hidden"></span>
+                  </span>
+                  {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </i>
+              </button>
+              
+            </div>
+            </a>
+              {% endfor %}
+              {% endfor %}
+            <!-- end friend requests -->
+            </ul>

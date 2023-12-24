@@ -1,0 +1,22 @@
+{% load humanize %}
+{% for message_se in message_content_sender %}
+            
+            
+            <li class="list-group-item justify-content-between  border-0 d-flex">
+                <!-- avatar user -->
+                <div class="d-flex">
+                <img
+                    src="{{sender.avatar.url}}"
+                    alt="avatar"
+                    class="rounded-circle me-2"
+                    style="width: 28px; height: 28px; object-fit: cover"
+                />
+                <p class="bg-gray p-2 rounded mark" style="background-color: #ced4da;max-width: 18rem;">{{message_se.content}}</p> 
+                </div>
+                <p class="sm-gray rounded small" style="width:7rem">{{message_se.updated_at|naturaltime}}</p>
+                
+                
+                <!-- message -->
+                
+            </li>
+            {% endfor %}

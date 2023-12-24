@@ -1,0 +1,84 @@
+{% load humanize %}
+<div class="mx-4 nav__btn nav__btn-active">
+    <button type="button" class="btn px-4">
+      <i class="fas fa-home text-muted fs-4"></i>
+    </button>
+  </div>
+  <!-- group -->
+  <div class="mx-4 nav__btn"
+    type="button"
+    id="groupuser"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+    data-bs-auto-close="outside"
+  >
+    <button type="button" class="btn px-4">
+      <i
+        type="button"
+        class="position-relative fas fa-users text-muted fs-4"
+      >
+        <span
+          class="
+            position-absolute
+            top-0
+            start-100
+            translate-middle
+            badge
+            rounded-pill
+            bg-danger
+          "
+          style="font-size: 0.5rem"
+        >{% for allreq in allrequests %}
+          {{allreq.user_request.all|length}}
+          {% endfor %}
+          <span class="visually-hidden"></span>
+        </span>
+      </i>
+    </button>
+    
+  </div>
+  <ul
+    class="dropdown-menu border-0 shadow p-3 overflow-auto"
+    aria-labelledby="groupuser"
+    style="width: 23em; max-height: 600px"
+  >
+  <!-- friend requests -->
+  {% for allreq in allrequests %}
+  {% for req in allreq.user_request.all %}
+  <li class="my-2 p-1">
+    <a
+      href="#"
+      class="
+        d-flex
+        align-items-center
+        justify-content-evenly
+        text-decoration-none text-dark
+      "
+    >
+      <div class="d-flex align-items-center justify-content-evenly">
+        <div class="p-2">
+          <img
+            src="{{req.avatar.url}}"
+            alt="avatar"
+            class="rounded-circle"
+            style="width: 58px; height: 58px; object-fit: cover"
+          />
+        </div>
+        <div>
+          <p class="fs-7 m-0">
+            {{req.first}}
+          </p>
+          <span class="fs-7 text-primary">Sent you a friend request</span><br>
+          <span class="text-muted fs-7">{{req.updated_at|naturaltime}}</span>
+        </div>
+        <div>
+          <a class="btn btn-primary btn-sm" href="/accept/{{req.id}}" role="button">accept</a>
+        </div>
+      </div>
+      <i class="fas fa-circle fs-7 text-primary"></i>
+    </a>
+  </li>
+  {% endfor %}
+  {% endfor %}
+  <!-- end friend requests -->
+  </ul>
